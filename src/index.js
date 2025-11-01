@@ -11,6 +11,7 @@ import { handleCp } from "./commands/file-operations/handleCp.js";
 import { handleMv } from "./commands/file-operations/handleMv.js";
 import { handleRm } from "./commands/file-operations/handleRm.js";
 import { handleOs } from "./commands/os-info/handleOs.js";
+import { handleHash } from "./commands/hash/handleHash.js";
 
 const usernameArg = process.argv.find((arg) => arg.startsWith("--username="));
 if (!usernameArg) {
@@ -110,6 +111,9 @@ async function handleCommand(command, args) {
       break;
     case "os":
       await handleOs(args);
+      break;
+    case "hash":
+      await handleHash(args, currentDir);
       break;
     default:
       throw new Error("Invalid input");
