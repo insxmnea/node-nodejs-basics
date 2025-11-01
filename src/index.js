@@ -1,5 +1,8 @@
 import os from "os";
 import readline from "readline";
+import { handleUp } from "./commands/navigation/handleUp.js";
+import { handleCd } from "./commands/navigation/handleCd.js";
+import { handleLs } from "./commands/navigation/handleLs.js";
 
 const usernameArg = process.argv.find((arg) => arg.startsWith("--username="));
 if (!usernameArg) {
@@ -68,6 +71,13 @@ function parseCommandLine(input) {
 async function handleCommand(command, args) {
   switch (command) {
     case "up":
+      currentDir = await handleUp(args, currentDir);
+      break;
+    case "cd":
+      currentDir = await handleCd(args, currentDir);
+      break;
+    case "ls":
+      await handleLs(args, currentDir);
       break;
     default:
       throw new Error("Invalid input");
