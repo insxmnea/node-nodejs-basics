@@ -1,0 +1,75 @@
+import os from "os";
+import readline from "readline";
+
+const usernameArg = process.argv.find((arg) => arg.startsWith("--username="));
+if (!usernameArg) {
+  console.error("Username is required");
+  process.exit(1);
+}
+const username = usernameArg.split("=")[1];
+
+let currentDir = os.homedir();
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: "> ",
+});
+
+console.log(`Welcome to the File Manager, ${username}!`);
+console.log(`You are currently in ${currentDir}`);
+
+rl.on("SIGINT", () => {
+  console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
+  process.exit(0);
+});
+
+rl.on("line", async (input) => {
+  input = input.trim();
+  if (input === ".exit") {
+    console.log(`Thank you for using File Manager, ${username}, goodbye!`);
+    process.exit(0);
+  }
+
+  try {
+    const args = parseCommandLine(input);
+    if (args.length === 0) {
+      rl.prompt();
+      return;
+    }
+    const command = args[0];
+    const commandArgs = args.slice(1);
+
+    await handleCommand(command, commandArgs);
+    console.log(`You are currently in ${currentDir}`);
+  } catch (err) {
+    if (err.message === "Invalid input") {
+      console.log("Invalid input");
+    } else {
+      console.log("Operation failed");
+    }
+  } finally {
+    rl.prompt();
+  }
+});
+
+rl.prompt();
+
+function parseCommandLine(input) {
+  const args = [];
+  const regex = /"([^"]*)"|([^\s]+)/g;
+  let match;
+  while ((match = regex.exec(input)) !== null) {
+    args.push(match[1] || match[2]);
+  }
+  return args;
+}
+
+async function handleCommand(command, args) {
+  switch (command) {
+    case "up":
+      break;
+    default:
+      throw new Error("Invalid input");
+  }
+}
