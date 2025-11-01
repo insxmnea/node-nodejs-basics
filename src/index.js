@@ -3,6 +3,13 @@ import readline from "readline";
 import { handleUp } from "./commands/navigation/handleUp.js";
 import { handleCd } from "./commands/navigation/handleCd.js";
 import { handleLs } from "./commands/navigation/handleLs.js";
+import { handleCat } from "./commands/file-operations/handleCat.js";
+import { handleAdd } from "./commands/file-operations/handleAdd.js";
+import { handleMkdir } from "./commands/file-operations/handleMkdir.js";
+import { handleRn } from "./commands/file-operations/handleRn.js";
+import { handleCp } from "./commands/file-operations/handleCp.js";
+import { handleMv } from "./commands/file-operations/handleMv.js";
+import { handleRm } from "./commands/file-operations/handleRm.js";
 
 const usernameArg = process.argv.find((arg) => arg.startsWith("--username="));
 if (!usernameArg) {
@@ -78,6 +85,27 @@ async function handleCommand(command, args) {
       break;
     case "ls":
       await handleLs(args, currentDir);
+      break;
+    case "cat":
+      await handleCat(args, currentDir);
+      break;
+    case "add":
+      await handleAdd(args, currentDir);
+      break;
+    case "mkdir":
+      await handleMkdir(args, currentDir);
+      break;
+    case "rn":
+      await handleRn(args, currentDir);
+      break;
+    case "cp":
+      await handleCp(args, currentDir);
+      break;
+    case "mv":
+      await handleMv(args, currentDir);
+      break;
+    case "rm":
+      await handleRm(args, currentDir);
       break;
     default:
       throw new Error("Invalid input");
