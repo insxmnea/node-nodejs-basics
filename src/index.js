@@ -12,6 +12,8 @@ import { handleMv } from "./commands/file-operations/handleMv.js";
 import { handleRm } from "./commands/file-operations/handleRm.js";
 import { handleOs } from "./commands/os-info/handleOs.js";
 import { handleHash } from "./commands/hash/handleHash.js";
+import { handleCompress } from "./commands/compress/handleCompress.js";
+import { handleDecompress } from "./commands/compress/handleDecompress.js";
 
 const usernameArg = process.argv.find((arg) => arg.startsWith("--username="));
 if (!usernameArg) {
@@ -114,6 +116,12 @@ async function handleCommand(command, args) {
       break;
     case "hash":
       await handleHash(args, currentDir);
+      break;
+    case "compress":
+      await handleCompress(args, currentDir);
+      break;
+    case "decompress":
+      await handleDecompress(args, currentDir);
       break;
     default:
       throw new Error("Invalid input");
